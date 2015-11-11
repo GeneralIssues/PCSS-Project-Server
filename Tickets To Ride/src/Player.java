@@ -6,6 +6,9 @@ public class Player {
 	//insert array of card objects here;
 	//insert array of mission card objects here;
 	
+	//no-arg constructor because Kryonet requires it
+	Player(){}
+	
 	public Player(int points, int trains, String name){
 		this.points=points; 
 		this.trains=trains;

@@ -6,12 +6,16 @@ public class Lobby {
 	protected int playerAmount;
 	protected int runtime;
 	
+	//no-arg constructor because Kryonet requires it. 
+	private Lobby(){}
+	
 	Lobby(String lobbyName, Player player) {
 		this.lobbyName = lobbyName;
 		players[0] = player;
 		playerAmount = 1;
 	}
-	
+
+
 	//Player join
 	public String joinLobby(Player newPlayer) {
 		if (playerAmount < 5) {					//The game can only hold a maximum of 5 players
