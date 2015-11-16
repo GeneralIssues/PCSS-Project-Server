@@ -26,7 +26,7 @@ public class TrainCard {
     }
 
     //Method for creating an entire deck
-    ArrayList<TrainCard> makeDeck() {
+    void makeDeck() {
         for (int i = 0; i < 110; ++i) {
             if (i < 14) {
                 this.deck.add(new TrainCard(0));
@@ -64,21 +64,19 @@ public class TrainCard {
             this.deck.add(new TrainCard(8));
         }
         System.out.println("Deck of cards created");
-        return this.deck;
     }
 
     //Method for shuffling the array (any size usable)
-    ArrayList<TrainCard> shuffleDeck(ArrayList<TrainCard> _deck) {
+    void shuffleDeck() {
         long seed = System.nanoTime();
-        Collections.shuffle(_deck, new Random(seed));
-        return _deck;
+        Collections.shuffle(this.deck, new Random(seed));
     }
 
     //Method for putting the first deck card into grave
-    void cardToGrave(ArrayList<TrainCard> _deck) {
-        this.graveyard.add(this.deck.get(0));
-        this.deck.remove(0);
-        this.deck.trimToSize();
+    void cardToGrave(Player player) {
+        this.graveyard.add(player.hand.get(0));
+        player.hand.remove(0);
+        player.hand.trimToSize();
     }
 
     //Method for taking all cards from grave and putting them to deck
@@ -90,12 +88,16 @@ public class TrainCard {
     }
 
     //Method handling the shown cards
-    ArrayList<TrainCard> shownCards(ArrayList<TrainCard> _deck) {
-        return _deck;
+    void shownCards() {
+        this.shown.add(this.deck.get(0));
+        this.deck.remove(0);
+        this.deck.trimToSize();
     }
 
     //Method handling the player hands
-    ArrayList<TrainCard> cardsToHand(ArrayList<TrainCard> _deck) {
-        return _deck;
+    void cardsToHand(Player player) {
+    	player.hand.add(this.deck.get(0));
+    	this.deck.remove(0);
+    	this.deck.trimToSize();
     }
 }
