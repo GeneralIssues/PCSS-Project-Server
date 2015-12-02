@@ -10,7 +10,7 @@ public class ClientProgram extends Listener {
 	//The client object.
 	static Client client;
 	
-	//IP to connect to. !IMPORANT VARIABLE!
+	//IP to connect to. !IMPORANT VARIABLE! REMEMBER TO CHANGE BASED ON HOST IP
 	static String ip = "172.30.210.103";
 	
 	//Ports to connect to.
@@ -35,7 +35,7 @@ public class ClientProgram extends Listener {
 		client.getKryo().register(Player[].class);
 		client.getKryo().register(TrainCard.class);
 		client.getKryo().register(Map.class);
-		
+		client.getKryo().register(Route.class);
 		//Start the client
 		client.start();
 		//The client MUST be started before connecting can take place.

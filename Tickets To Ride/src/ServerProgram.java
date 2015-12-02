@@ -48,6 +48,7 @@ public class ServerProgram extends Listener {
 		server.getKryo().register(Player[].class);
 		server.getKryo().register(TrainCard.class);
 		server.getKryo().register(Map.class);
+		server.getKryo().register(Route.class);
 		
 		//server.getKryo().register(Board.class);
 		//We can only send objects as packets if they are registered.
@@ -95,9 +96,9 @@ public class ServerProgram extends Listener {
 			sendToAll(c,p);
 		} else if(p.getClass().getName() == "Player"){
 			//Don't send to all
-		} else if(p.getClass().getName() == "Board"){
+		} else if(p.getClass().getName() == "Map"){
 			sendToAll(c,p);
-		}else if(p.getClass().getName() == "Card"){
+		}else if(p.getClass().getName() == "TrainCard"){
 			//Don't send to all
 		}
 		

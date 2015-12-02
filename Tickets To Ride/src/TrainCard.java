@@ -102,7 +102,27 @@ public class TrainCard {
     }
     
     //Method for checking the colours of the hand and remove id had
-    public void cardsCheck(Player player, Route route) {
+    public void useCards(Player player, Route route) {
+    	int amountOfCards = 0;
     	
-    }
+    	for(int i = 0; i < player.hand.size(); i++){
+	    	if(player.hand.get(i).colour == route.GetColour()){
+	    		amountOfCards++;
+	    		System.out.println(amountOfCards);
+	    	}
+    	}
+    	if(amountOfCards >= route.GetLength()){
+    		for(int i = 0; i < player.hand.size(); i++){
+    			if(amountOfCards != 0){
+    				if(player.hand.get(i).colour == route.GetColour()){
+    					player.hand.remove(i);
+    					amountOfCards--;
+    	    		}
+    			}
+    		}
+    		player.hand.trimToSize();
+    		route.SetRoute(player);
+    		//send this route to all client so it is updated
+    	}
+     }
 }
