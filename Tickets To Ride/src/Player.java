@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class Player {
-	int points;
-	int trains;
-	String name;
+	private int points;
+	private int trains;
+	private String name;
 	//insert array of card objects here;
 	//insert array of mission card objects here;
 	
