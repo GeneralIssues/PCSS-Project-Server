@@ -11,13 +11,17 @@ public class ClientProgram extends Listener {
 	static Client client;
 	
 	//IP to connect to. !IMPORANT VARIABLE!
-	static String ip = "172.30.211.124";
+	static String ip = "172.30.210.103";
 	
 	//Ports to connect to.
 	static int udpPort = 4445, tcpPort = 4444;
 	
 	//Boolean to check if a packet is received
 	static boolean messageReceived = false;
+	
+	//Test objects
+	static Player pl = new Player(0,0,"Name");
+	static Lobby test = new Lobby("Kek",pl);
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Connecting to the server...");
@@ -29,7 +33,9 @@ public class ClientProgram extends Listener {
 		client.getKryo().register(Lobby.class);
 		client.getKryo().register(Player.class);
 		client.getKryo().register(Player[].class);
-
+		client.getKryo().register(TrainCard.class);
+		client.getKryo().register(Map.class);
+		
 		//Start the client
 		client.start();
 		//The client MUST be started before connecting can take place.
@@ -42,6 +48,8 @@ public class ClientProgram extends Listener {
 		
 		System.out.println("Connected! The client program is now waiting for a packet...\n");
 		
+		client.sendTCP(test);
+		
 		//This is here to stop the program from closing before we receive a message.
 		while(!messageReceived){
 			System.out.println("No messege yet");
@@ -49,7 +57,7 @@ public class ClientProgram extends Listener {
 		}
 		//This happens when messegeReceived is true
 		System.out.println("Client will now exit.");
-		System.exit(0);
+		//System.exit(0);
 	}
 	
 	//This is called whenever a packet is received from the server

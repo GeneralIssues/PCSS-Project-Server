@@ -1,0 +1,9 @@
+apply plugin: 'eclipse'
+apply plugin: 'java'
+
+repositories {
+}
+
+dependencies {
+    compile "kryonet:kryonet:2.21"
+}
