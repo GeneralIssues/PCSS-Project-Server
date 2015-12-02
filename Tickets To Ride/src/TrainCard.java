@@ -26,7 +26,7 @@ public class TrainCard {
     }
 
     //Method for creating an entire deck
-    void makeDeck() {
+    public void makeDeck() {
         for (int i = 0; i < 110; ++i) {
             if (i < 14) {
                 this.deck.add(new TrainCard(0));
@@ -67,20 +67,20 @@ public class TrainCard {
     }
 
     //Method for shuffling the array (any size usable)
-    void shuffleDeck() {
+    public void shuffleDeck() {
         long seed = System.nanoTime();
         Collections.shuffle(this.deck, new Random(seed));
     }
 
     //Method for putting the first deck card into grave
-    void cardToGrave(Player player) {
+    public void cardToGrave(Player player) {
         this.graveyard.add(player.hand.get(0));
         player.hand.remove(0);
         player.hand.trimToSize();
     }
 
     //Method for taking all cards from grave and putting them to deck
-    void cardFromGrave() {
+    public void cardFromGrave() {
         for (int i = 0; i < this.graveyard.size(); ++i) {
             this.deck.add(this.graveyard.get(i));
         }
@@ -88,16 +88,21 @@ public class TrainCard {
     }
 
     //Method handling the shown cards
-    void shownCards() {
+    public void shownCards() {
         this.shown.add(this.deck.get(0));
         this.deck.remove(0);
         this.deck.trimToSize();
     }
 
     //Method handling the player hands
-    void cardsToHand(Player player) {
+    public void cardsToHand(Player player) {
     	player.hand.add(this.deck.get(0));
     	this.deck.remove(0);
     	this.deck.trimToSize();
+    }
+    
+    //Method for checking the colours of the hand and remove id had
+    public void cardsCheck(Player player) {
+    	
     }
 }
