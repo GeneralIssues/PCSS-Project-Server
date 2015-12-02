@@ -1,4 +1,5 @@
 //Kryonet lib imports, used for TCP connections
+import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -15,6 +16,7 @@ public class ServerProgram extends Listener {
 
 	//Server object
 	static Server server;
+	static Client client;
 	
 	//Lobby name for test lobby objects
 	static String lName = "THIS IS A LOBBY";
@@ -28,6 +30,7 @@ public class ServerProgram extends Listener {
 		//Create the server
 		server = new Server();
 		
+		client = new Client();
 		//Finds the current hosts LAN IPv4
 		InetAddress inet = InetAddress.getLocalHost();
 		
@@ -43,6 +46,10 @@ public class ServerProgram extends Listener {
 		server.getKryo().register(Lobby.class);
 		server.getKryo().register(Player.class);
 		server.getKryo().register(Player[].class);
+		server.getKryo().register(TrainCard.class);
+		server.getKryo().register(Map.class);
+		
+		//server.getKryo().register(Board.class);
 		//We can only send objects as packets if they are registered.
 		
 		//Bind to a port
@@ -55,7 +62,7 @@ public class ServerProgram extends Listener {
 		server.addListener(new ServerProgram());
 		
 		//Tell us that the server is running
-		System.out.println("Server is running!");
+		//System.out.println("Server is running!");
 		
 	}
 	
@@ -69,8 +76,9 @@ public class ServerProgram extends Listener {
 		lobby.setState("Running");
 		
 		//Send the message
-		System.out.println("Sending packet to client containing an instance of " + lobby.getClass().getName());
-		c.sendTCP(lobby);
+		//System.out.println("Sending packet to client containing an instance of " + lobby.getClass().getName());
+		//c.sendTCP(lobby);
+		
 		//Alternatively, we could do:
 		//c.sendUDP(packetMessage);
 		//To send over UDP.
@@ -79,12 +87,30 @@ public class ServerProgram extends Listener {
 	//This is run when we receive a packet.
 	public void received(Connection c, Object p){
 		System.out.println("Someone sent a package to the server!");
-		System.out.println(p.toString());
 		System.out.println(p.getClass().getName());
+		
+		//When we receive an objects, check what class it has and
+		//Based on the class name, either send to all or don't
+		if(p.getClass().getName() == "Lobby"){
+			sendToAll(c,p);
+		} else if(p.getClass().getName() == "Player"){
+			//Don't send to all
+		} else if(p.getClass().getName() == "Board"){
+			sendToAll(c,p);
+		}else if(p.getClass().getName() == "Card"){
+			//Don't send to all
+		}
+		
 	}
 	
 	//This is run when a client has disconnected.
 	public void disconnected(Connection c){
 		System.out.println("A client disconnected!");
 	}
-}
+	
+	//This is used to send an object(p) to all TCP connections on the socket/connection(c)
+	public void sendToAll(Connection c , Object p){
+			server.sendToAllTCP(p);
+		}
+		
+	}
