@@ -102,7 +102,7 @@ public class TrainCard {
     }
     
     //Method for checking the colours of the hand and remove id had
-    public void cardsCheck(Player player) {
+    public void cardsCheck(Player player, Route route) {
     	
     }
 }
