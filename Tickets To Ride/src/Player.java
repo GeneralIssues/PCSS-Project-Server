@@ -8,15 +8,13 @@ public class Player {
 	//insert array of mission card objects here;
 	
 	//this array should only be accessed through TrainCard class
-	public ArrayList<TrainCard> hand = new ArrayList();
+	public ArrayList<TrainCard> hand = new ArrayList<TrainCard>();
 	
 	//no-arg constructor because Kryonet requires it
 	Player(){}
 	
-	public Player(int points, int trains, String name){
-		this.points=points; 
-		this.trains=trains;
-		this.name=name;
+	public Player(String name) {
+		this.name = name;
 	}
 
 	public int getPoints() {

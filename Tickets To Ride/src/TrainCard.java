@@ -16,9 +16,9 @@ public class TrainCard {
     //8 : green
     
     //Arraylists for different decks and card placements
-    private ArrayList<TrainCard> deck = new ArrayList();
-    private ArrayList<TrainCard> graveyard = new ArrayList();
-    private ArrayList<TrainCard> shown = new ArrayList();
+    private ArrayList<TrainCard> deck = new ArrayList<TrainCard>();
+    private ArrayList<TrainCard> graveyard = new ArrayList<TrainCard>();
+    private ArrayList<TrainCard> shown = new ArrayList<TrainCard>();
 
     //A single traincard cannot be made, call method makeDeck()
     private TrainCard(int colour) {
