@@ -6,9 +6,11 @@ Serverside created by Frederik, Oana, and Patrick (GeneralIssues, Sothisx, and H
 
 ## Libraries in use
 Slick2D - http://slick.ninjacave.com/
+
 Used for displaying graphics and creating the gameboard in itself
 
 Kryonet - https://github.com/EsotericSoftware/kryonet
+
 Used for connecting the client and server with either UDP or TCP
 More can be read here https://github.com/GeneralIssues/PCSS-Project-Server/wiki/Communication-protocol
 
