@@ -158,10 +158,13 @@ public class ServerProgram extends Listener {
 		server.sendToAllTCP(p);
 	}
 	
-public Player checkWinner() {
+	//Method for finding the winner of the game
+	public Player checkWinner() {
 		
-		ArrayList<Player> players = new ArrayList<Player>(); //DO NOT LEAVE HERE
-		Map map = new Map();
+		//////////////////////////////////////////////////////////////////////////////
+		ArrayList<Player> players = new ArrayList<Player>(); 	//DO NOT LEAVE HERE
+		Map map = new Map();									//INSTATIATE ELSEWHERE
+		//////////////////////////////////////////////////////////////////////////////
 		
 		int[] points = new int[players.size()];
 		
@@ -179,5 +182,16 @@ public Player checkWinner() {
 		}
 		
 		return players.get(index);
+	}
+	
+	//Method for seeing if the game is on its last rounds
+	//The current player should be added to a temp
+	//The next player has their turn
+	//If current player is = temp end game
+	public boolean lastRound(Player player) {
+		if (player.getTrains() <= 2)
+			return true;
+			
+		return false;		
 	}
 }
