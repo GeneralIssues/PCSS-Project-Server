@@ -10,6 +10,7 @@ import java.net.InetAddress;
 //javax imports used for making a JFrame with JLabels
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.util.*;
 
 
 public class ServerProgram extends Listener {
@@ -154,5 +155,28 @@ public class ServerProgram extends Listener {
 	//This is used to send an object(p) to all TCP connections on the socket/connection(c)
 	public void sendToAll(Connection c , Object p){
 		server.sendToAllTCP(p);
+	}
+	
+public Player checkWinner() {
+		
+		ArrayList<Player> players = new ArrayList<Player>(); //DO NOT LEAVE HERE
+		Map map = new Map();
+		
+		int[] points = new int[players.size()];
+		
+		for (int i = 0; i < players.size(); i++) {
+			points[i] = map.CalculatePoints(players.get(i));	
+		}
+		
+		int highest = points[0];
+		int index = 0;
+		
+		for (int i = 1; i < points.length; i++) {
+			if (points[i] > highest)
+				highest = points[i];
+				index = i;
+		}
+		
+		return players.get(index);
 	}
 }
