@@ -47,4 +47,8 @@ public class Route extends Map {
 		return this.colour;
 	}
 	
+	public Player GetPlayer() {
+		return this.player;
+	}
+	
 }

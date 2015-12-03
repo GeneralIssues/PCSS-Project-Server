@@ -106,4 +106,39 @@ public class Map {
 		route[99].CreateRoute(6, 7);
 		//end black	
 	}
+	
+	//The following method calculates the points of the player
+	public int CalculatePoints(Player player) {
+		int points = 0;
+		int length;
+		
+		for (int i = 0; i < route.length; i++) {
+			if (route[i].GetPlayer() == player) {
+				length = route[i].GetLength();
+				
+				switch (length) {
+				case 1: 
+					points += 1;
+					break;
+				case 2:
+					points += 2;
+					break;
+				case 3:
+					points += 4;
+					break;
+				case 4:
+					points += 7;
+					break;
+				case 5:
+					points += 10;
+					break;
+				case 6:
+					points += 15;
+					break;
+				}				
+			}
+		}
+		
+		return points;
+	}
 }
