@@ -20,7 +20,7 @@ public class ClientProgram extends Listener {
 	static boolean messageReceived = false;
 	
 	//Test objects
-	static Player pl = new Player(0,0,"Name");
+	static Player pl = new Player("Name");
 	static Lobby test = new Lobby("Kek",pl);
 	
 	public static void main(String[] args) throws Exception {

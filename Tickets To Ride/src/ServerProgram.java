@@ -17,6 +17,7 @@ public class ServerProgram extends Listener {
 	//Server object
 	static Server server;
 	static Client client;
+	String command;
 	
 	//Lobby name for test lobby objects
 	static String lName = "THIS IS A LOBBY";
@@ -71,10 +72,7 @@ public class ServerProgram extends Listener {
 	public void connected(Connection c){
 		System.out.println("Received a connection from "+c.getRemoteAddressTCP().getHostString());
 		
-		//Initialise the objects we would like to send
-		Player frederik = new Player(10,0,"Frederik");
-		Lobby lobby = new Lobby(lName,frederik);
-		lobby.setState("Running");
+		
 		
 		//Send the message
 		//System.out.println("Sending packet to client containing an instance of " + lobby.getClass().getName());
@@ -86,24 +84,68 @@ public class ServerProgram extends Listener {
 	}
 	
 	//This is run when we receive a packet.
-	public void received(Connection c, Object p){
+	public void received(Connection c, Object p, Object com){
 		System.out.println("Someone sent a package to the server!");
 		System.out.println(p.getClass().getName());
+		
+		int ID = c.getID();
 		
 		//When we receive an objects, check what class it has and
 		//Based on the class name, either send to all or don't
 		if(p.getClass().getName() == "Lobby"){
-			sendToAll(c,p);
+			System.out.println(p.getClass().getName());
+			Lobby lobby = (Lobby) p;
+			if(com.getClass().getName() == "String"){
+				command = (String) com;
+			}
+			if(command == "!METHODNAME!"){
+				//lobby.!METHODNAME!
+				c.sendTCP(lobby);
+				//Either or
+				sendToAll(c,p);
+			}
+			
+			
 		} else if(p.getClass().getName() == "Player"){
+			Player player = (Player) p;
+			
+			if(com.getClass().getName() == "String"){
+				command = (String) com;
+			}
+			if(command == "!METHODNAME!"){
+				//player.!METHODNAME!
+				c.sendTCP(player);
+			}
 			//Don't send to all
+			
 		} else if(p.getClass().getName() == "Map"){
+			Map map = (Map) p;
+			
+			if(com.getClass().getName() == "String"){
+				command = (String) com;
+			}
+			
+			if(command == "!METHODNAME!"){
+				//map.!METHODNAME!
+				c.sendTCP(map);
+			}
 			sendToAll(c,p);
+			
 		}else if(p.getClass().getName() == "TrainCard"){
+			TrainCard traincard = (TrainCard) p;
+			if(com.getClass().getName() == "String"){
+				command = (String) com;
+			}
+			
+			if(command == "!METHODNAME!"){
+				//traincard.!METHODNAME!
+				
+				c.sendTCP(traincard);
+			}
 			//Don't send to all
 		}
-		
 	}
-	
+		
 	//This is run when a client has disconnected.
 	public void disconnected(Connection c){
 		System.out.println("A client disconnected!");
