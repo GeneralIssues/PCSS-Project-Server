@@ -1,7 +1,7 @@
 
 public class Map {
 
-	Route[] route = new Route[100];
+	public Route[] route = new Route[100];
 	
 	//Creating a map will create all the routes on the map
 	//The specific connections are not made
