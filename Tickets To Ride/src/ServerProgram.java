@@ -111,7 +111,6 @@ public class ServerProgram extends Listener {
 	
 	//This is used to send an object(p) to all TCP connections on the socket/connection(c)
 	public void sendToAll(Connection c , Object p){
-			server.sendToAllTCP(p);
-		}
-		
+		server.sendToAllTCP(p);
 	}
+}

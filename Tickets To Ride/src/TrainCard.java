@@ -19,7 +19,12 @@ public class TrainCard {
     private ArrayList<TrainCard> deck = new ArrayList<TrainCard>();
     private ArrayList<TrainCard> graveyard = new ArrayList<TrainCard>();
     private ArrayList<TrainCard> shown = new ArrayList<TrainCard>();
-
+    
+    //Empty constructor to access this
+    TrainCard() {
+    	
+    }
+    
     //A single traincard cannot be made, call method makeDeck()
     private TrainCard(int colour) {
         this.colour = colour;
