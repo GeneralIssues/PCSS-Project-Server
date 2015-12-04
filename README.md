@@ -25,5 +25,6 @@ Next is a step by step on what to do, to make the server run.
 * Unpack the ZIP file to a given folder
 * Open the folder as a project in an IDE
 * Run the ServerProgram.java (it contains the main)
+
 The server is now open and clients are able to connect
 
