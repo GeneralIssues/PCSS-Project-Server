@@ -9,6 +9,7 @@ public class Player {
 	
 	//this array should only be accessed through TrainCard class
 	public ArrayList<TrainCard> hand = new ArrayList<TrainCard>();
+	public String commandString;
 	
 	//no-arg constructor because Kryonet requires it
 	Player(){}

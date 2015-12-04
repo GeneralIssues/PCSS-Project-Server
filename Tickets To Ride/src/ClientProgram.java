@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -11,7 +9,7 @@ public class ClientProgram extends Listener {
 	static Client client;
 	
 	//IP to connect to. !IMPORANT VARIABLE! REMEMBER TO CHANGE BASED ON HOST IP
-	static String ip = "172.30.210.103";
+	static String ip = "192.168.43.14";
 	
 	//Ports to connect to.
 	static int udpPort = 4445, tcpPort = 4444;
@@ -21,7 +19,7 @@ public class ClientProgram extends Listener {
 	
 	//Test objects
 	static Player pl = new Player("Name");
-	static Lobby test = new Lobby("Kek",pl);
+	static Lobby test = new Lobby("Kek",pl,"createLobby");
 	
 	public static void main(String[] args) throws Exception {
 		System.out.println("Connecting to the server...");
@@ -36,8 +34,11 @@ public class ClientProgram extends Listener {
 		client.getKryo().register(TrainCard.class);
 		client.getKryo().register(Map.class);
 		client.getKryo().register(Route.class);
+		client.getKryo().register(java.util.ArrayList.class);
+		client.getKryo().register(String.class);
+		
 		//Start the client
-		client.start();
+		new Thread(client).start();
 		//The client MUST be started before connecting can take place.
 		
 		//Connect to the server - wait 5000ms before failing.
@@ -63,11 +64,8 @@ public class ClientProgram extends Listener {
 	//This is called whenever a packet is received from the server
 	public void received(Connection c, Object p){
 		//If the class of the packet is Lobby then do the following
-		if (p instanceof Lobby){
-			Lobby lobby = (Lobby) p;
-			System.out.println("received a message from the host: "+ lobby.lobbyName);
-			System.out.println(lobby.getLobbyName() +" "+ lobby.getRuntime() +" "+ lobby.getState() +" "+ Arrays.toString(lobby.getPlayer()));
-			messageReceived = true;
+		if (p instanceof Player){
+			//messageReceived = true;
 		}
 	}
 }

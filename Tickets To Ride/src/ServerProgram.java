@@ -1,5 +1,4 @@
 //Kryonet lib imports, used for TCP connections
-import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -11,18 +10,19 @@ import java.util.ArrayList;
 //javax imports used for making a JFrame with JLabels
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.util.*;
 
 
 public class ServerProgram extends Listener {
 
 	//Server object
 	static Server server;
-	static Client client;
 	String command;
 	
-	//Lobby name for test lobby objects
-	static String lName = "THIS IS A LOBBY";
+	//Stores the only active lobby
+	static Lobby realLobby;
+	
+	//Bool to check if lobby exists
+	public boolean isLobbyCreated;
 
 	//Ports to listen on
 	static int udpPort = 4445, tcpPort = 4444;
@@ -33,7 +33,6 @@ public class ServerProgram extends Listener {
 		//Create the server
 		server = new Server();
 		
-		client = new Client();
 		//Finds the current hosts LAN IPv4
 		InetAddress inet = InetAddress.getLocalHost();
 		
@@ -52,8 +51,8 @@ public class ServerProgram extends Listener {
 		server.getKryo().register(TrainCard.class);
 		server.getKryo().register(Map.class);
 		server.getKryo().register(Route.class);
-		
-		//server.getKryo().register(Board.class);
+		server.getKryo().register(java.util.ArrayList.class);
+		server.getKryo().register(String.class);
 		//We can only send objects as packets if they are registered.
 		
 		//Bind to a port
@@ -78,54 +77,48 @@ public class ServerProgram extends Listener {
 		
 		//Send the message
 		//System.out.println("Sending packet to client containing an instance of " + lobby.getClass().getName());
-		//c.sendTCP(lobby);
 		
 		//Alternatively, we could do:
 		//c.sendUDP(packetMessage);
 		//To send over UDP.
+		
+		c.setKeepAliveTCP(8000);
 	}
 	
 	//This is run when we receive a packet.
-	public void received(Connection c, Object p, Object com){
+	//When we receive an object, check what class it has and
+	//Based on the class, either send to all or don't
+	public void received(Connection c, Object p){
 		System.out.println("Someone sent a package to the server!");
-		System.out.println(p.getClass().getName());
 		
-		int ID = c.getID();
-		
-		//When we receive an objects, check what class it has and
-		//Based on the class name, either send to all or don't
-		if(p.getClass().getName() == "Lobby"){
-			System.out.println(p.getClass().getName());
+		if(p instanceof Lobby){
+			System.out.println("1");
 			Lobby lobby = (Lobby) p;
-			if(com.getClass().getName() == "String"){
-				command = (String) com;
-			}
-			if(command == "!METHODNAME!"){
-				//lobby.!METHODNAME!
-				c.sendTCP(lobby);
-				//Either or
-				sendToAll(c,p);
-			}
 			
-			
-		} else if(p.getClass().getName() == "Player"){
-			Player player = (Player) p;
-			
-			if(com.getClass().getName() == "String"){
-				command = (String) com;
+			if(lobby.commandString.equalsIgnoreCase("createLobby")){
+				realLobby = lobby;
+				isLobbyCreated = true;
+				System.out.println("Stored Real Lobby");
 			}
-			if(command == "!METHODNAME!"){
-				//player.!METHODNAME!
-				c.sendTCP(player);
-			}
-			//Don't send to all
-			
-		} else if(p.getClass().getName() == "Map"){
+		}
+		else if(p instanceof Player){
+			System.out.println("1");
+			Player plr = (Player) p;
+			System.out.println(plr.commandString);
+			System.out.println(plr.getName());
+			if(plr.commandString.equalsIgnoreCase("joinLobby")){
+				if(isLobbyCreated == true){
+					realLobby.players.add(plr);
+					sendToAll(c,realLobby.players);
+				}
+			}	
+		} else if(p instanceof Map){
+			System.out.println("3");
 			Map map = (Map) p;
 			
-			if(com.getClass().getName() == "String"){
+			/*if(com instanceof String){
 				command = (String) com;
-			}
+			}*/
 			
 			if(command == "!METHODNAME!"){
 				//map.!METHODNAME!
@@ -133,11 +126,13 @@ public class ServerProgram extends Listener {
 			}
 			sendToAll(c,p);
 			
-		}else if(p.getClass().getName() == "TrainCard"){
+		}else if(p instanceof TrainCard){
+			System.out.println("4");
 			TrainCard traincard = (TrainCard) p;
-			if(com.getClass().getName() == "String"){
+			
+			/*if(com instanceof String){
 				command = (String) com;
-			}
+			}*/
 			
 			if(command == "!METHODNAME!"){
 				//traincard.!METHODNAME!
@@ -146,6 +141,7 @@ public class ServerProgram extends Listener {
 			}
 			//Don't send to all
 		}
+		
 	}
 		
 	//This is run when a client has disconnected.
@@ -193,5 +189,9 @@ public class ServerProgram extends Listener {
 			return true;
 			
 		return false;		
+	}
+	
+	public void updatePlayers(Connection c){
+		c.sendTCP(realLobby.players.get(1).getName());
 	}
 }

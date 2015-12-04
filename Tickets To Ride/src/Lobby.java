@@ -6,13 +6,15 @@ public class Lobby {
 	protected String state;
 	protected ArrayList<Player> players = new ArrayList<Player>();
 	protected int runtime;
+	public String commandString;
 	
 	//no-arg constructor because Kryonet requires it. 
 	Lobby(){}
 	
-	Lobby(String lobbyName, Player player) {
+	Lobby(String lobbyName, Player player, String command) {
 		this.lobbyName = lobbyName;
 		this.players.add(player);
+		this.commandString = command;
 	}
 
 
@@ -25,13 +27,6 @@ public class Lobby {
 			return "Lobby is full";				//String is returned if full
 		}
 	}
-	
-	
-	 public void cardsToHand(Player player) {
-	    	player.hand.add(this.deck.get(0));
-	    	this.deck.remove(0);
-	    	this.deck.trimToSize();
-	    }
 	
 	//Get and Set
 	//Lobby name
