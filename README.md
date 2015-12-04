@@ -7,11 +7,6 @@ Serverside created by Frederik E., Oana D., and Patrick S. (GeneralIssues, Sothi
 
 
 ## Libraries in use
-Slick2D - http://slick.ninjacave.com/
-
-Used for displaying graphics and creating the gameboard in itself
-
-
 
 Kryonet - https://github.com/EsotericSoftware/kryonet
 
@@ -36,3 +31,4 @@ Next is a step by step on what to do, to make the server run.
 
 The server is now open and clients are able to connect
 
+Kryonet may in some cases not be downloaded with the project. The library can be found from the link above (Libraries in use) and imported into your chosen IDE.
